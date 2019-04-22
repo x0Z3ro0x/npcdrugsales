@@ -6,17 +6,19 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 	local success = false
 	local copscalled = false
 	local notintrested = false
+	local notintrested2 = false
+
 
   RegisterNetEvent('drugs:trigger')
   AddEventHandler('drugs:trigger', function()
 	selling = true
 	    if selling == true then
 			TriggerEvent('pass_or_fail')
-  			TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 1)
+  			TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 1)
   			TriggerClientEvent("pNotify:SendNotification", source, {
-            text = "trying to convince person to buy the product",
+            text = "Smoothe talking the sale...",
             type = "error",
-            queue = "lmao",
+            queue = "soldQue",
             timeout = 2500,
             layout = "Centerleft"
         	})
@@ -44,12 +46,12 @@ end)
 
 
 		if coke >= 1 and success == true then
-			 	TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+			 	TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "You sold some cocain for $" .. paymentc ,
 					type = "success",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
@@ -58,12 +60,12 @@ end)
   			xPlayer.addAccountMoney('black_money', paymentc)
   			selling = false
   		elseif weed >= 1 and success == true then
-  				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+  				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "You unloaded some weed for $" .. paymentw ,
 					type = "success",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
@@ -73,12 +75,12 @@ end)
   			xPlayer.addAccountMoney('black_money', paymentw)
   			selling = false
   		  elseif meth >= 1 and success == true then
-  				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+  				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "You sold some Meth for $" .. paymentm ,
 					type = "success",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
@@ -87,12 +89,12 @@ end)
   			xPlayer.addAccountMoney('black_money', paymentm)
   			selling = false
   			elseif opium >= 1 and success == true then
-  				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+  				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "You have sold some Opium for $" .. paymento ,
 					type = "success",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
@@ -101,33 +103,44 @@ end)
   			xPlayer.addAccountMoney('black_money', paymento)
   			selling = false
 			elseif selling == true and success == false and notintrested == true then
-				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "They are not interested",
 					type = "error",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
+			elseif selling == true and success == false and notinterested2 == true then
+				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
+				TriggerClientEvent("pNotify:SendNotification", source, {
+					text = "They know you're a cop...",
+					type = "error",
+					progressBar = false,
+					queue = "soldQue",
+					timeout = 2000,
+					layout = "CenterLeft"
+			})
+			TriggerClientEvent("notifyc", source)
   			selling = false
   			elseif meth < 1 and coke < 1 and weed < 1 and opium < 1 then
-				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 				text = "You dont have any drugs",
 				type = "error",
 				progressBar = false,
-				queue = "lmao",
+				queue = "soldQue",
 				timeout = 2000,
 				layout = "CenterLeft"
 			})
 			elseif copscalled == true and success == false then
-  				TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+  				TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
 					text = "They are calling the cops",
 					type = "error",
 					progressBar = false,
-					queue = "lmao",
+					queue = "soldQue",
 					timeout = 2000,
 					layout = "CenterLeft"
 			})
@@ -140,8 +153,17 @@ RegisterNetEvent('pass_or_fail')
 AddEventHandler('pass_or_fail', function()
 
   		local percent = math.random(1, 11)
+		local _source = source
+	    local xPlayer  = ESX.GetPlayerFromId(_source)
+		local xPlayers = ESX.GetPlayers()
 
-  		if percent == 7 or percent == 8 or percent == 9 then
+  		for i=1, #xPlayers, 1 do
+		local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+		if xPlayer.job.name == 'police' or xPlayer.job.name == 'spolice' or xPlayer.job.name == 'sheriff' then
+		    success = false
+			notinterested2 = true
+			copscalled = true
+		elseif percent == 7 or percent == 8 or percent == 9 then
   			success = false
   			notintrested = true
   		elseif percent ~= 8 and percent ~= 9 and percent ~= 10 and percent ~= 7 then
@@ -152,16 +174,17 @@ AddEventHandler('pass_or_fail', function()
   			success = false
   			copscalled = true
   		end
+		end
 end)
 
 RegisterNetEvent('sell_dis')
 AddEventHandler('sell_dis', function()
-		TriggerClientEvent("pNotify:SetQueueMax", source, "lmao", 5)
+		TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 		TriggerClientEvent("pNotify:SendNotification", source, {
 		text = "You moved too far away",
 		type = "error",
 		progressBar = false,
-		queue = "lmao",
+		queue = "soldQue",
 		timeout = 2000,
 		layout = "CenterLeft"
 	})

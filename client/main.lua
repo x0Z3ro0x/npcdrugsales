@@ -140,3 +140,12 @@ function drawTxt(x,y ,width,height,scale, text, r,g,b,a, outline)
     AddTextComponentString(text)
     DrawText(x - width/2, y - height/2 + 0.005)
 end
+
+RegisterNetEvent('setblip')
+AddEventHandler('setblip', function(position)
+	blipKnownCop = AddBlipForCoord(position.x, position.y, position.z)
+	SetBlipSprite(blipKnownCop , 161)
+	SetBlipScale(blipKnownCop , 2.0)
+	SetBlipColour(blipKnownCop, 3)
+	PulseBlip(blipKnownCop)
+end)
