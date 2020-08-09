@@ -16,7 +16,7 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 			TriggerEvent('pass_or_fail')
   			TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 1)
   			TriggerClientEvent("pNotify:SendNotification", source, {
-            text = "Smoothe talking the sale...",
+            text = "Smooth talking the sale...",
             type = "error",
             queue = "soldQue",
             timeout = 2500,
@@ -48,7 +48,7 @@ end)
 		if coke >= 1 and success == true then
 			 	TriggerClientEvent("pNotify:SetQueueMax", source, "soldQue", 5)
 				TriggerClientEvent("pNotify:SendNotification", source, {
-					text = "You sold some cocain for $" .. paymentc ,
+					text = "You sold some cocaine for $" .. paymentc ,
 					type = "success",
 					progressBar = false,
 					queue = "soldQue",
